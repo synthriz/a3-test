@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "module": "es2015",  // use es2015 para compatibilidade com bundlers
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

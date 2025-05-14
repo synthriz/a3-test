@@ -1,0 +1,51 @@
+---
+import fs from 'fs';
+import path from 'path';
+
+// funcao que define os caminhos estáticos da rota dinamica => [page]
+// oooou seja: gera /paginatemplate1/page-1, /paginatemplate1/page-2, e por assim vai
+export async function getStaticPaths() {
+  const pagesDir = path.join(process.cwd(), 'content', 'paginatemplate1'); // caminho da pasta onde os JSONs estao
+  const files = fs.readdirSync(pagesDir).filter(file => file.endsWith('.json')); // pegando so os arquivos .json
+  return files.map(file => {
+    const page = path.basename(file, '.json'); // remove a extensao .json, virando apenas "page-1", e etc
+    return { params: { page } }; // define a url como /paginatemplate1/[page]
+  });
+}
+
+// le o JSON da pagina requisitada
+// recupera o nome da pagina atual (ex: page-1) da rota
+const page = Astro.params.page;
+
+// caminho completo ate o JSON correspondente (content/paginatemplate1/page-i.json)
+const dataPath = path.join(process.cwd(), 'content', 'paginatemplate1', `${page}.json`);
+
+let data;
+try {
+    // le o conteudo do JSON e transforma em objeto javascript
+    // parse => "Converts a JavaScript Object Notation (JSON) string into an object"
+  data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+} catch {
+  // caso o JSON nao exista ou esteja corrompido, throw erro
+  throw new Error(`Arquivo JSON para página "${page}" não encontrado!!`);
+}
+
+// pega os campos do objeto JSON pra usar no HTML
+const { titulo, descricao, imagem, footer } = data;
+---
+<!-- HTML da pagina abaixo -->
+ <!-- os itens entre {} sao campos do JSON sendo inseridos no html -->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{titulo}</title>
+  </head>
+  <body>
+    <main>
+      <h1>{titulo}</h1>
+      <p>{descricao}</p>
+      <img src={imagem} alt={titulo} />
+      <footer>{footer}</footer>
+    </main>
+  </body>
+</html>
