@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,6 +9,10 @@ export default defineConfig({
 
   // @ts-ignore
   contentDir: "content",
+  vite: {
+    // @ts-ignore
+    plugins: [tailwindcss()],
+  },
   
   // outras configs iriam aqui...
 });

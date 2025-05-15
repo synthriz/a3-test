@@ -1,4 +1,4 @@
-// generatecontent.cjs
+// generatecontent.cjs para o template 1
 
 // esse script gera 10 arquivos .json com conteudo filler para o CMS Tina,
 // salvando em "content/paginatemplate1"
@@ -18,7 +18,9 @@ for (let i = 1; i <= 10; i++) {
     // gerando dados falsos pra preencher o conteudo do JSON
   const titulo = faker.lorem.sentence();
   const descricao = faker.lorem.paragraph();
-  const imagem = faker.image.url();
+  // aqui a imagem, sendo gerada com aspect-video (16:9) pra nao dar problema
+  // aparentemente ele acaba repetindo algumas imagens sozinho, nao sei o porquê
+  const imagem = faker.image.url({ height: 1080, width: 1920 });
   const slug = `page-${i}`;
   const footer = faker.lorem.sentence();
 
