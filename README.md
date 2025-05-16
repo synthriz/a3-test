@@ -16,15 +16,15 @@ Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**
 
 ## 📚 Glossário / Índice
 
-- [🧩 Referência do desafio](#referencia-do-desafio)  
-- [✨ Funcionalidades](#funcionalidades)  
-- [🛠 Stack utilizada](#stack-utilizada)  
-- [⚙️ Como rodar localmente](#como-rodar-localmente)  
-- [🧪 Como usar](#como-usar)  
-- [🧾 Estrutura do projeto](#estrutura-do-projeto)  
-- [📷 Exemplo de conteúdo gerado](#exemplo-de-conteúdo-gerado)  
-- [🌈 Estilo](#estilo)  
-- [🧠 Processo de pensamento e lógica de raciocínio](#processo-de-pensamento-e-lógica-de-raciocínio)
+- [🧩 Referência do desafio](#-referência-do-desafio)  
+- [✨ Funcionalidades](#-funcionalidades)  
+- [🛠 Stack utilizada](#-stack-utilizada)  
+- [⚙️ Como rodar localmente](#-como-rodar-localmente)  
+- [🧪 Como usar](#-como-usar)  
+- [🧾 Estrutura do projeto](#-estrutura-do-projeto)  
+- [📷 Exemplo de conteúdo gerado](#-exemplo-de-conteúdo-gerado)  
+- [🌈 Estilo](#-estilo)  
+- [🧠 Processo de pensamento e lógica de raciocínio](#-processo-de-pensamento-e-lógica-de-raciocínio)
 
 ## 🧩 Referência do desafio
 
