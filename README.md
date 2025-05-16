@@ -16,7 +16,7 @@ Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**
 
 ## 📚 Glossário / Índice
 
-- [🧩 Referência do desafio](#referência-do-desafio)  
+- [🧩 Referência do desafio](#referencia-do-desafio)  
 - [✨ Funcionalidades](#funcionalidades)  
 - [🛠 Stack utilizada](#stack-utilizada)  
 - [⚙️ Como rodar localmente](#como-rodar-localmente)  
