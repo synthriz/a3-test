@@ -43,12 +43,20 @@ try {
 const { titulo, descricao, imagem, footer } = data;
 ---
 
-<!-- HTML da pagina abaixo --><!-- os itens entre {} sao campos do JSON sendo inseridos no html --><!doctype html>
+<!-- HTML da pagina abaixo --><!-- os itens entre {} sao campos do JSON sendo inseridos no html -->
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
         <style>
+            body {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+
             .bg-overlay {
                 background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80");
                 background-size: cover;
@@ -58,7 +66,6 @@ const { titulo, descricao, imagem, footer } = data;
 
             .video-container {
                 position: relative;
-                max-width: 3000px;
                 margin: 0 auto;
             }
 
@@ -101,13 +108,78 @@ const { titulo, descricao, imagem, footer } = data;
             .text-shadow {
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             }
+
+            .titulo {
+                line-height: 29.7px;
+            }
+
+            .sci-ref {
+                font-family: "Montserrat", sans-serif;
+                font-weight: 500;
+            }
+            .footer {
+                font-family: "Montserrat", sans-serif;
+                position: relative; 
+            }
+            .mobile-only-button-container {
+                text-align: center;
+                margin: 15px auto;
+                max-width: 100%;
+                position: absolute;
+                top: 0; /* topo do footer */
+                left: 50%; /* centro horizontal */
+                transform: translate(-50%, -90%);
+                z-index: 10; /* para ficar acima do conteúdo do footer */
+            }
+
+            .pulsing-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #f00;
+                color: white;
+                font-size: 23px;
+                font-weight: medium;
+                padding: 10px 15px;
+                border-radius: 20px;
+                text-decoration: none;
+                position: relative;
+                box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.3);
+                animation: pulse 1.5s infinite;
+                border: 3px solid #ff0;
+            }
+
+            .checkmark {
+                margin-right: 10px;
+                font-size: 23px;
+                font-weight: 900;
+            }
+
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+                }
+                70% {
+                    box-shadow: 0 0 0 15px rgba(255, 0, 0, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+                }
+            }
+
+            /* escondido no desktop */
+            @media (min-width: 768px) {
+                .mobile-only-button-container {
+                    display: none;
+                }
+            }
         </style>
     </head>
 
     <body class="font-sans">
         <div class="flex flex-col">
             <!-- barrinha colorida no topo da tela -->
-            <div class="bg-[#d9877c] w-full h-2"></div>
+            <div class="bg-[#d9877c] w-full min-h-[5px]"></div>
             <!-- seçao superior com fundo -->
             <div
                 class="relative flex items-center justify-center overflow-hidden"
@@ -115,13 +187,11 @@ const { titulo, descricao, imagem, footer } = data;
                 <!-- background esbranquiçado -->
                 <div class="bg-overlay absolute inset-0"></div>
 
-                <!-- Container principal -->
-                <div
-                    class="relative z-10 w-full max-w-5xl mx-auto px-4 pt-4 pb-0"
-                >
-                    <!-- Título -->
+                <!-- container principal -->
+                <div class="relative z-10 w-full max-w-5xl mx-auto pt-4 pb-0">
+                    <!-- titulo -->
                     <h1
-                        class="text-center text-xl md:text-3xl font-bold text-gray-800 mb-2 leading-tight"
+                        class="titulo text-center text-[27px] font-bold text-gray-800 mb-2 mt-1 leading-tight px-[15px]"
                     >
                         This "Diabetic Parasite" is causing deadly glucose
                         spikes in millions of Americans! (See the #1 way to
@@ -130,13 +200,11 @@ const { titulo, descricao, imagem, footer } = data;
 
                     <!-- container do video -->
                     <div
-                        class="video-container overflow-hidden shadow-2xl min-h-[200px] md:min-h-[550px]"
+                        class="video-container relative w-full overflow-hidden shadow-2xl"
+                        style="aspect-ratio: 16/9;"
                     >
                         <!-- overlay rosa com gradiente -->
-                        <div
-                            class="overlay-gradient absolute inset-0 "
-                        >
-                        </div>
+                        <div class="overlay-gradient absolute inset-0"></div>
 
                         <!-- botao de play no centro -->
                         <div
@@ -146,6 +214,7 @@ const { titulo, descricao, imagem, footer } = data;
                                 class="video-button flex items-center justify-center"
                             >
                                 <!-- cursor do mouse -->
+                                <!-- TO-DO colocar cursor de fato XD -->
                                 <img
                                     src="/cursor.png"
                                     alt="Cursor"
@@ -171,32 +240,240 @@ const { titulo, descricao, imagem, footer } = data;
                         </div>
 
                         <!-- fundo escuro do video (altura fixa) -->
-                        <div class="w-full min-h-[200px] md:min-h-[550px] bg-black opacity-20">
-                        </div>
+                        <div class="absolute inset-0 bg-black opacity-20"></div>
                     </div>
                 </div>
             </div>
 
             <!-- secao inferior, abaixo do video -->
-            <div class="flex flex-col gap-4 w-full">
+            <div class="flex flex-col w-full">
                 <div
-                    class="w-full max-w-4xl mx-auto px-4 py-8 text-center text-gray-500 text-lg"
+                    class="sci-ref w-full max-w-4xl mx-auto px-4 mb-10 mt-[30px] text-center text-gray-500 text-lg"
                 >
                     Scientific References:
                 </div>
-                <div class="w-full px-72 mx-auto">
-                    <img class="w-full" src="/images/refs.webp" alt="Scientific References"/>
+
+                <!-- imagem das referencias cientificas -->
+                <!-- TO-DO fix padding -->
+                <div class="w-full px-4 lg:px-70 mx-auto mb-10">
+                    <img
+                        class="w-full"
+                        src="/images/refs.webp"
+                        alt="Scientific References"
+                    />
                 </div>
                 <!-- TO-DO fazer lista e footer -->
-                 <!-- lista deve receber sentences do json-->
-                <ul class="flex flex-wrap justify-center items-center">
-                    <li>
-                        Item 1
+                <!-- lista deve receber sentences do json-->
+                <ul
+                    class="px-4 md:px-24 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-0 text-[#a3a39f] text-[11px] mx-4 lg:mx-56 mb-24 md:mb-2"
+                >
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamin D and type 2 diabetes</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and Beta Cells in Type 1 Diabetes: A
+                            Systematic Review</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamin D and Diabetic Kidney Disease</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and new insights into pathophysiology of
+                            type 2 diabetes</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamins and type 2 diabetes mellitus</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamin D and risk of type 2 diabetes</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Appropriate and inappropriate vitamin
+                            supplementation in children</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and diabetes mellitus: an update 2013</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and diabetes mellitus: an update 2013</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and diabetes mellitus: an update 2013</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Beneficial role of vitamin K supplementation on
+                            insulin sensitivity, glucose metabolism, and the
+                            reduced risk of type 2 diabetes: A review</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >The Management of Diabetes Mellitus Using Medicinal
+                            Plants and Vitamins</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Meta-analysis: Vitamin D Therapy Reduced Type 2
+                            Diabetes</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Oxidative stress, type 2 diabetes and vitamin D:
+                            past, present and future</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Water Soluble Vitamins and their Role in Diabetes
+                            and its Complications</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin C supplementation for diabetes management:
+                            A comprehensive narrative review</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin D and adrenal gland: Myth or reality? A
+                            systematic review</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Role of Vitamin C in Enhancing Fat Oxidation and
+                            Metabolic Health: Insights from Overweight Adults</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Vitamin C and the management of diabetic foot
+                            ulcers: a literature review</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Pharmacokinetics and the Effect of Capsaicin in
+                            Capsicum Frutescens on Decreasing Plasma Glucose and
+                            Promoting Weight Loss</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Summary for Patients: Vitamin D and Risk for Type 2
+                            Diabetes in People With Prediabetes</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamin D and diabetes</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span
+                            >Preventing Type 2 Diabetes With Vitamin D: Therapy
+                            Versus Supplementation</span
+                        >
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-gray-600">•</span>
+                        <span>Vitamin D effects and endocrine diseases</span>
                     </li>
                 </ul>
             </div>
+
+            <footer class="footer bg-black text-white pb-[30px] pt-[40px] md:pt-[30px] w-full">
+                <div class="mobile-only-button-container w-full">
+                    <a href="#" class="pulsing-button">
+                        <span class="checkmark">✓</span> Watch video now!
+                    </a>
+                </div>
+                <div class="container mx-auto text-center mb-[10px]">
+                    <nav
+                        class="flex flex-wrap justify-center gap-1 mb-[20px] text-[16px]"
+                    >
+                        <a href="" class="hover:text-gray-300">Privacy</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300"
+                            >Terms and Conditions</a
+                        >
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300">Disclaimer</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300">References</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300">Returns</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300">Refunds</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300">Contact</a>
+                        <span class="px-1">|</span>
+                        <a href="" class="hover:text-gray-300"
+                            >Shipping Policy</a
+                        >
+                    </nav>
+
+                    <!-- copyright -->
+                    <p class="text-[15px] mb-[20px]">All rights reserved.</p>
+
+                    <div class="flex flex-col mx-[22%]">
+                        <!-- texto 1 -->
+                        <p class="text-[16px] md:text-[11px] max-w-4xl mx-auto mb-[20px]">
+                            These statements have not been evaluated by the Food
+                            and Drug Administration.
+                        </p>
+
+                        <!-- texto 2 -->
+                        <p class="text-[16px] md:text-[11px] max-w-4xl mx-auto">
+                            The content of this site is for informational
+                            purposes only, and is not intended to replace
+                            professional medical advice, diagnosis or treatment.
+                            Always seek the advice of your doctor or other
+                            qualified health care professional about a medical
+                            condition, a suspected medical condition, and before
+                            starting a diet, exercise, or supplementation
+                            program or take or stop a medication.
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
-
-
     </body>
 </html>
