@@ -58,6 +58,53 @@ export default defineConfig({
           }
         ],
       },
+      // collection template2
+      {
+        name: 'paginatemplate2', //nome
+        label: 'Página Template 2', //label da coleçao
+        path: 'content/paginatemplate2', //caminho da coleçao
+        format: 'json', //formato da coleçao, que é JSON mas poderia ser markdown tb
+        fields: [
+          // campos da coleçao abaixo
+          {
+            type: 'string',
+            name: 'titulo',
+            label: 'Título',
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: 'string',
+            name: 'topicos',
+            label: 'Tópicos',
+          },
+          {
+            type: 'string',
+            name: 'imagem',
+            label: 'URL da Imagem',
+          },
+          {
+            type: 'string',
+            name: 'video',
+            label: 'URL da Imagem(Video)',
+          },
+          {
+            type: 'string',
+            name: 'slug',
+            label: 'Slug (URL)',
+          },
+          {
+            type: 'string',
+            name: 'footer',
+            label: 'Footer',
+          },
+          {
+            type: 'string',
+            name: 'footer2',
+            label: 'Footer Texto secundário'
+          }
+        ],
+      },
     ],
   },
 });

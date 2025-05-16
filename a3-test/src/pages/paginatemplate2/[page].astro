@@ -5,15 +5,15 @@ import path from "path";
 import "../../styles/global.css";
 
 // funcao que define os caminhos estáticos da rota dinamica => [page]
-// oooou seja: gera /paginatemplate1/page-1, /paginatemplate1/page-2, e por assim vai
+// oooou seja: gera /paginatemplate2/page-1, /paginatemplate2/page-2, e por assim vai
 export async function getStaticPaths() {
-    const pagesDir = path.join(process.cwd(), "content", "paginatemplate1"); // caminho da pasta onde os JSONs estao
+    const pagesDir = path.join(process.cwd(), "content", "paginatemplate2"); // caminho da pasta onde os JSONs estao
     const files = fs
         .readdirSync(pagesDir)
         .filter((file) => file.endsWith(".json")); // pegando so os arquivos .json
     return files.map((file) => {
         const page = path.basename(file, ".json"); // remove a extensao .json, virando apenas "page-1", e etc
-        return { params: { page } }; // define a url como /paginatemplate1/[page]
+        return { params: { page } }; // define a url como /paginatemplate2/[page]
     });
 }
 
@@ -21,11 +21,11 @@ export async function getStaticPaths() {
 // recupera o nome da pagina atual (ex: page-1) da rota
 const page = Astro.params.page;
 
-// caminho completo ate o JSON correspondente (content/paginatemplate1/page-i.json)
+// caminho completo ate o JSON correspondente (content/paginatemplate2/page-i.json)
 const dataPath = path.join(
     process.cwd(),
     "content",
-    "paginatemplate1",
+    "paginatemplate2",
     `${page}.json`,
 );
 
@@ -40,7 +40,7 @@ try {
 }
 
 // pega os campos do objeto JSON pra usar no HTML
-const { titulo, descricao, imagem, footer } = data;
+const { titulo, topicos, imagem, video, footer, footer2 } = data;
 ---
 
 <!-- HTML da pagina abaixo --><!-- os itens entre {} sao campos do JSON sendo inseridos no html -->
@@ -55,13 +55,6 @@ const { titulo, descricao, imagem, footer } = data;
         <style>
             body {
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            }
-
-            .bg-overlay {
-                background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80");
-                background-size: cover;
-                background-position: center;
-                opacity: 0.2;
             }
 
             .video-container {
@@ -119,7 +112,7 @@ const { titulo, descricao, imagem, footer } = data;
             }
             .footer {
                 font-family: "Montserrat", sans-serif;
-                position: relative; 
+                position: relative;
             }
             .mobile-only-button-container {
                 text-align: center;
@@ -185,7 +178,18 @@ const { titulo, descricao, imagem, footer } = data;
                 class="relative flex items-center justify-center overflow-hidden"
             >
                 <!-- background esbranquiçado -->
-                <div class="bg-overlay absolute inset-0"></div>
+                <div
+                    class="absolute inset-0"
+                    style={`
+                        background-image:
+                        linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 100%),
+                        url('${imagem}');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    `}
+                >
+                </div>
 
                 <!-- container principal -->
                 <div class="relative z-10 w-full max-w-5xl mx-auto pt-4 pb-0">
@@ -193,9 +197,7 @@ const { titulo, descricao, imagem, footer } = data;
                     <h1
                         class="titulo text-center text-[27px] font-bold text-gray-800 mb-2 mt-1 leading-tight px-[15px]"
                     >
-                        This "Diabetic Parasite" is causing deadly glucose
-                        spikes in millions of Americans! (See the #1 way to
-                        fight it now)
+                        {titulo}
                     </h1>
 
                     <!-- container do video -->
@@ -203,28 +205,21 @@ const { titulo, descricao, imagem, footer } = data;
                         class="video-container relative w-full overflow-hidden shadow-2xl"
                         style="aspect-ratio: 16/9;"
                     >
-                        <!-- overlay rosa com gradiente -->
-                        <div class="overlay-gradient absolute inset-0"></div>
+                        <div
+                            class="absolute inset-0 z-0"
+                            style={`background-image: url('${video}'); background-size: cover; background-position: center; opacity: 0.8;`}
+                        >
+                        </div>
 
                         <!-- botao de play no centro -->
                         <div
                             class="absolute inset-0 flex items-center justify-center"
                         >
-                            <div
-                                class="video-button flex items-center justify-center"
-                            >
-                                <!-- cursor do mouse -->
-                                <!-- TO-DO colocar cursor de fato XD -->
-                                <img
-                                    src="/cursor.png"
-                                    alt="Cursor"
-                                    class="cursor-icon"
-                                />
-                            </div>
+                            <img class="w-1/2" src="/images/click.gif" />
                         </div>
 
                         <!-- texto "click here to watch now" em cima do video -->
-                        <div
+                        <!-- <div
                             class="absolute inset-0 flex flex-col items-center justify-center"
                         >
                             <p
@@ -237,10 +232,10 @@ const { titulo, descricao, imagem, footer } = data;
                             >
                                 WATCH NOW!
                             </p>
-                        </div>
+                        </div> -->
 
                         <!-- fundo escuro do video (altura fixa) -->
-                        <div class="absolute inset-0 bg-black opacity-20"></div>
+                        <!-- <div class="absolute inset-0 bg-black opacity-20"></div> -->
                     </div>
                 </div>
             </div>
@@ -267,159 +262,21 @@ const { titulo, descricao, imagem, footer } = data;
                 <ul
                     class="px-4 md:px-24 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-0 text-[#a3a39f] text-[11px] mx-4 lg:mx-56 mb-24 md:mb-2"
                 >
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamin D and type 2 diabetes</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and Beta Cells in Type 1 Diabetes: A
-                            Systematic Review</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamin D and Diabetic Kidney Disease</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and new insights into pathophysiology of
-                            type 2 diabetes</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamins and type 2 diabetes mellitus</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamin D and risk of type 2 diabetes</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Appropriate and inappropriate vitamin
-                            supplementation in children</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and diabetes mellitus: an update 2013</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and diabetes mellitus: an update 2013</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and diabetes mellitus: an update 2013</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Beneficial role of vitamin K supplementation on
-                            insulin sensitivity, glucose metabolism, and the
-                            reduced risk of type 2 diabetes: A review</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >The Management of Diabetes Mellitus Using Medicinal
-                            Plants and Vitamins</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Meta-analysis: Vitamin D Therapy Reduced Type 2
-                            Diabetes</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Oxidative stress, type 2 diabetes and vitamin D:
-                            past, present and future</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Water Soluble Vitamins and their Role in Diabetes
-                            and its Complications</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin C supplementation for diabetes management:
-                            A comprehensive narrative review</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin D and adrenal gland: Myth or reality? A
-                            systematic review</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Role of Vitamin C in Enhancing Fat Oxidation and
-                            Metabolic Health: Insights from Overweight Adults</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Vitamin C and the management of diabetic foot
-                            ulcers: a literature review</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Pharmacokinetics and the Effect of Capsaicin in
-                            Capsicum Frutescens on Decreasing Plasma Glucose and
-                            Promoting Weight Loss</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Summary for Patients: Vitamin D and Risk for Type 2
-                            Diabetes in People With Prediabetes</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamin D and diabetes</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span
-                            >Preventing Type 2 Diabetes With Vitamin D: Therapy
-                            Versus Supplementation</span
-                        >
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 text-gray-600">•</span>
-                        <span>Vitamin D effects and endocrine diseases</span>
-                    </li>
+                    <!-- pra cada string (topico), ele gera uma <li/>  -->
+                    {
+                        topicos.map((topico: string) => (
+                            <li class="flex items-start">
+                                <span class="mr-2 text-gray-600">•</span>
+                                <span>{topico}</span>
+                            </li>
+                        ))
+                    }
                 </ul>
             </div>
 
-            <footer class="footer bg-black text-white pb-[30px] pt-[40px] md:pt-[30px] w-full">
+            <footer
+                class="footer bg-black text-white pb-[30px] pt-[40px] md:pt-[30px] w-full"
+            >
                 <div class="mobile-only-button-container w-full">
                     <a href="#" class="pulsing-button">
                         <span class="checkmark">✓</span> Watch video now!
@@ -455,21 +312,15 @@ const { titulo, descricao, imagem, footer } = data;
 
                     <div class="flex flex-col mx-[22%]">
                         <!-- texto 1 -->
-                        <p class="text-[16px] md:text-[11px] max-w-4xl mx-auto mb-[20px]">
-                            These statements have not been evaluated by the Food
-                            and Drug Administration.
+                        <p
+                            class="text-[16px] md:text-[11px] max-w-4xl mx-auto mb-[20px]"
+                        >
+                            {footer}
                         </p>
 
                         <!-- texto 2 -->
                         <p class="text-[16px] md:text-[11px] max-w-4xl mx-auto">
-                            The content of this site is for informational
-                            purposes only, and is not intended to replace
-                            professional medical advice, diagnosis or treatment.
-                            Always seek the advice of your doctor or other
-                            qualified health care professional about a medical
-                            condition, a suspected medical condition, and before
-                            starting a diet, exercise, or supplementation
-                            program or take or stop a medication.
+                            {footer2}
                         </p>
                     </div>
                 </div>
