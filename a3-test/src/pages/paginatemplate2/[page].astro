@@ -1,0 +1,202 @@
+---
+import fs from "fs";
+import path from "path";
+// importando a file com o tailwind aqui...
+import "../../styles/global.css";
+
+// funcao que define os caminhos estáticos da rota dinamica => [page]
+// oooou seja: gera /paginatemplate1/page-1, /paginatemplate1/page-2, e por assim vai
+export async function getStaticPaths() {
+    const pagesDir = path.join(process.cwd(), "content", "paginatemplate1"); // caminho da pasta onde os JSONs estao
+    const files = fs
+        .readdirSync(pagesDir)
+        .filter((file) => file.endsWith(".json")); // pegando so os arquivos .json
+    return files.map((file) => {
+        const page = path.basename(file, ".json"); // remove a extensao .json, virando apenas "page-1", e etc
+        return { params: { page } }; // define a url como /paginatemplate1/[page]
+    });
+}
+
+// le o JSON da pagina requisitada
+// recupera o nome da pagina atual (ex: page-1) da rota
+const page = Astro.params.page;
+
+// caminho completo ate o JSON correspondente (content/paginatemplate1/page-i.json)
+const dataPath = path.join(
+    process.cwd(),
+    "content",
+    "paginatemplate1",
+    `${page}.json`,
+);
+
+let data;
+try {
+    // le o conteudo do JSON e transforma em objeto javascript
+    // parse => "Converts a JavaScript Object Notation (JSON) string into an object"
+    data = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+} catch {
+    // caso o JSON nao exista ou esteja corrompido, throw erro
+    throw new Error(`Arquivo JSON para página "${page}" não encontrado!!`);
+}
+
+// pega os campos do objeto JSON pra usar no HTML
+const { titulo, descricao, imagem, footer } = data;
+---
+
+<!-- HTML da pagina abaixo --><!-- os itens entre {} sao campos do JSON sendo inseridos no html --><!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            .bg-overlay {
+                background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80");
+                background-size: cover;
+                background-position: center;
+                opacity: 0.2;
+            }
+
+            .video-container {
+                position: relative;
+                max-width: 3000px;
+                margin: 0 auto;
+            }
+
+            .video-button {
+                background-color: rgba(0, 0, 0, 0.7);
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            .video-button::after {
+                content: "";
+                border-style: solid;
+                border-width: 15px 0 15px 25px;
+                border-color: transparent transparent transparent white;
+                margin-left: 5px;
+            }
+
+            .cursor-icon {
+                position: absolute;
+                bottom: -10px;
+                right: -10px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .overlay-gradient {
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 0, 128, 0.7) 0%,
+                    rgba(255, 0, 255, 0.7) 100%
+                );
+                opacity: 0.8;
+            }
+
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        </style>
+    </head>
+
+    <body class="font-sans">
+        <div class="flex flex-col">
+            <!-- barrinha colorida no topo da tela -->
+            <div class="bg-[#d9877c] w-full h-2"></div>
+            <!-- seçao superior com fundo -->
+            <div
+                class="relative flex items-center justify-center overflow-hidden"
+            >
+                <!-- background esbranquiçado -->
+                <div class="bg-overlay absolute inset-0"></div>
+
+                <!-- Container principal -->
+                <div
+                    class="relative z-10 w-full max-w-5xl mx-auto px-4 pt-4 pb-0"
+                >
+                    <!-- Título -->
+                    <h1
+                        class="text-center text-xl md:text-3xl font-bold text-gray-800 mb-2 leading-tight"
+                    >
+                        This "Diabetic Parasite" is causing deadly glucose
+                        spikes in millions of Americans! (See the #1 way to
+                        fight it now)
+                    </h1>
+
+                    <!-- container do video -->
+                    <div
+                        class="video-container overflow-hidden shadow-2xl min-h-[200px] md:min-h-[550px]"
+                    >
+                        <!-- overlay rosa com gradiente -->
+                        <div
+                            class="overlay-gradient absolute inset-0 "
+                        >
+                        </div>
+
+                        <!-- botao de play no centro -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center"
+                        >
+                            <div
+                                class="video-button flex items-center justify-center"
+                            >
+                                <!-- cursor do mouse -->
+                                <img
+                                    src="/cursor.png"
+                                    alt="Cursor"
+                                    class="cursor-icon"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- texto "click here to watch now" em cima do video -->
+                        <div
+                            class="absolute inset-0 flex flex-col items-center justify-center"
+                        >
+                            <p
+                                class="text-white text-2xl md:text-4xl font-extrabold text-shadow tracking-wide mb-12"
+                            >
+                                CLICK HERE TO
+                            </p>
+                            <p
+                                class="text-white text-2xl md:text-4xl font-extrabold text-shadow tracking-wide"
+                            >
+                                WATCH NOW!
+                            </p>
+                        </div>
+
+                        <!-- fundo escuro do video (altura fixa) -->
+                        <div class="w-full min-h-[200px] md:min-h-[550px] bg-black opacity-20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- secao inferior, abaixo do video -->
+            <div class="flex flex-col gap-4 w-full">
+                <div
+                    class="w-full max-w-4xl mx-auto px-4 py-8 text-center text-gray-500 text-lg"
+                >
+                    Scientific References:
+                </div>
+                <div class="w-full px-72 mx-auto">
+                    <img class="w-full" src="/images/refs.webp" alt="Scientific References"/>
+                </div>
+                <!-- TO-DO fazer lista e footer -->
+                 <!-- lista deve receber sentences do json-->
+                <ul class="flex flex-wrap justify-center items-center">
+                    <li>
+                        Item 1
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </body>
+</html>

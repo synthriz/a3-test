@@ -51,6 +51,11 @@ export default defineConfig({
             name: 'footer',
             label: 'Footer',
           },
+          {
+            type: 'string',
+            name: 'company',
+            label: 'Empresa Ficticia'
+          }
         ],
       },
     ],
