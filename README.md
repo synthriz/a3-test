@@ -5,3 +5,4 @@
 - finalizar html/css dos templates
 - gerar 1k de .json ao inves de 10
 - documentação pendente
+- fazer lista funcional no .astro do template 2
