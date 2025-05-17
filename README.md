@@ -3,10 +3,15 @@
 
 Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**, no qual foi solicitado replicar duas páginas de funil, transformá-las em templates Astro + TinaCMS, e gerar **1000 variações únicas** de cada uma usando conteúdo dinâmico.
 
+### 🚀 Deploy
+- https://a3-test.surge.sh/
+
+<br/>
+
 <details>
     <summary>TO-DO</summary>
   <ul>
-    <li>documentação pendente</li>
+    <li>All done! ;)</li>
   </ul>
 </details>
 
@@ -81,6 +86,10 @@ Na página inicial (`/`), há dois campos de busca:
     -   `/paginatemplate1/page-123`
         
     -   `/paginatemplate2/page-789`
+      
+    -   `/paginatemplate3/page-3`
+      
+    -   `/paginatemplate4/page-10`
         
 
 Todo conteúdo (título, descrição, imagem e footer) vem do CMS e foi gerado com faker-js.
@@ -100,6 +109,11 @@ Todo conteúdo (título, descrição, imagem e footer) vem do CMS e foi gerado c
 │   │     ├── paginatemplate3/
 │   │     └── paginatemplate4/
 │   └── components/
+├── scripts/
+│   ├── generateContent.cjs/
+│   ├── generateContent2.cjs/
+│   ├── generateContent3.cjs/
+│   └── generateContent4.cjs/
 ├── public/
 ├── tina/
 ├── astro.config.mjs
@@ -143,15 +157,16 @@ Para resolver o desafio, minha abordagem seguiu estes passos:
    Configurei collections no TinaCMS para as duas páginas, permitindo edição do conteúdo direto pelo painel. Isso facilita atualizações sem alterar o código.
 
 4. **Geração de conteúdo dinâmico via faker-js:**  
-   Para simular 1000 variações únicas, criei um script (executado durante o build) que gera arquivos JSON para cada página clonada dentro das pastas `content/paginatemplate1/` e `content/paginatemplate2/`.
+   Para simular 1000 variações únicas, criei um script (executado durante o build) que gera arquivos JSON para cada página clonada dentro das pastas `content/paginatemplate1/`, `content/paginatemplate2/`, `content/paginatemplate3/` e `content/paginatemplate4/`.
+   > Por limitações do deploy, os templates 3 e 4 vão de 1 a 10 apenas.
 
    - Cada arquivo JSON contém campos como título, descrição, imagens e footer, todos preenchidos com dados gerados pelo faker-js.
    - Isso garante que cada página tenha conteúdo único e reflita a edição via CMS.
 
-5. **Roteamento dinâmico:**  
+6. **Roteamento dinâmico:**  
    As páginas são acessadas via URLs do tipo `/paginatemplate1/page-{n}`, onde `{n}` varia de 1 a 1000, fazendo o Astro carregar o conteúdo correto baseado no JSON correspondente.
 
-6. **UX para acesso direto:**  
+7. **UX para acesso direto:**  
    Criei uma interface na homepage para que o usuário possa digitar o número da página desejada e abrir o respectivo template numa nova aba, com validação para garantir que o número esteja entre 1 e 1000.
 
 Essa linha de raciocínio garantiu uma solução escalável, modular e facilmente extensível para diferentes funis ou variações futuras, aproveitando o poder do CMS e conteúdo dinâmico.
