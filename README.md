@@ -6,11 +6,7 @@ Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**
 <details>
     <summary>TO-DO</summary>
   <ul>
-    <li>implementar codigo que gera os .json pro template 2</li>
-    <li>finalizar html/css dos templates</li>
-    <li>gerar 1k de .json ao inves de 10</li>
     <li>documentação pendente</li>
-    <li>fazer lista funcional no .astro do template 2</li>
   </ul>
 </details>
 
@@ -94,11 +90,15 @@ Todo conteúdo (título, descrição, imagem e footer) vem do CMS e foi gerado c
 ```bash
 ├── content/
 │   ├── paginatemplate1/
-│   └── paginatemplate2/
+│   ├── paginatemplate2/
+│   ├── paginatemplate3/
+│   └── paginatemplate4/
 ├── src/
 │   ├── pages/
 │   │     ├── paginatemplate1/
-│   │     └── paginatemplate2/
+│   │     ├── paginatemplate2/
+│   │     ├── paginatemplate3/
+│   │     └── paginatemplate4/
 │   └── components/
 ├── public/
 ├── tina/
