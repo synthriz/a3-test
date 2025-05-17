@@ -14,7 +14,7 @@ const outputDir = path.join(process.cwd(), 'content', 'paginatemplate4');
 fs.mkdirSync(outputDir, { recursive: true });
 
 // loopzinho pra gerar i arquivos (page-i.json)
-for (let i = 1; i <= 1000; i++) {
+for (let i = 1; i <= 10; i++) {
     // gerando dados falsos pra preencher o conteudo do JSON
     const nomeProduto= faker.commerce.productName() + ' Natural';
 
