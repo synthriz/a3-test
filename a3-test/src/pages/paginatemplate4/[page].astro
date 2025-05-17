@@ -1,0 +1,179 @@
+---
+// template 4 - algo mais natural
+
+import fs from "fs";
+import path from "path";
+// importando a file com o tailwind aqui...
+import "../../styles/global.css";
+
+// funcao que define os caminhos estáticos da rota dinamica => [page]
+// oooou seja: gera /paginatemplate4/page-1, /paginatemplate4/page-2, e por assim vai
+
+export async function getStaticPaths() {
+  const pagesDir = path.join(process.cwd(), "content", "paginatemplate4"); // caminho da pasta onde os JSONs estao
+  const files = fs
+    .readdirSync(pagesDir)
+    .filter((file) => file.endsWith(".json")); // pegando so os arquivos .json
+  return files.map((file) => {
+    const page = path.basename(file, ".json"); // remove a extensao .json, virando apenas "page-1", e etc
+    return { params: { page } }; // define a url como /paginatemplate1/[page]
+  });
+}
+
+// le o JSON da pagina requisitada
+// recupera o nome da pagina atual (ex: page-1) da rota
+const page = Astro.params.page;
+
+// caminho completo ate o JSON correspondente (content/paginatemplate3/page-i.json)
+const dataPath = path.join(
+  process.cwd(),
+  "content",
+  "paginatemplate4",
+  `${page}.json`,
+);
+
+let data;
+try {
+  // le o conteudo do JSON e transforma em objeto javascript
+  // parse => "Converts a JavaScript Object Notation (JSON) string into an object"
+  data = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+} catch {
+  // caso o JSON nao exista ou esteja corrompido, throw erro
+  throw new Error(`Arquivo JSON para página "${page}" não encontrado!!`);
+}
+
+// pega os campos do objeto JSON pra usar no HTML
+const {
+  nomeProduto,
+  destaque,
+  beneficios,
+  adjetivos,
+  imagemProduto,
+  depoimento1,
+  depoimento2,
+  pessoa1,
+  pessoa2,
+  ctaTexto,
+  ctaSecundario,
+  ctaTerciario,
+  company,
+  aviso,
+} = data;
+---
+
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Template 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <!-- aviso - top band no topo -->
+  <body class="font-[Montserrat] bg-green-50 text-gray-800">
+    <div class="bg-green-800 text-white text-sm text-center py-2">
+      Desconto por tempo limitado! Frete grátis.
+    </div>
+
+    <!-- destaque principal -->
+    <section
+      class="text-center px-6 py-12 bg-gradient-to-br from-green-100 to-green-50"
+    >
+      <h1
+        class="text-4xl md:text-5xl font-bold text-green-900 max-w-3xl mx-auto leading-tight"
+      >
+        {destaque}
+      </h1>
+      <p class="mt-4 text-lg text-gray-700 max-w-xl mx-auto">
+        100% natural. Sem química. Resultados visíveis em poucos dias.
+      </p>
+      <a
+        href="#comprar"
+        class="mt-6 inline-block bg-green-700 text-white font-bold px-6 py-3 rounded-full shadow hover:bg-green-800 transition"
+      >
+        {ctaTexto}
+      </a>
+    </section>
+
+    <!-- imagem do produto -->
+    <section class="py-12 px-6 text-center">
+      <img
+        src={imagemProduto}
+        alt={`Imagem de ${nomeProduto}`}
+        class="w-64 mx-auto rounded-lg shadow-lg"
+      />
+      <p class="mt-4 text-gray-600 text-sm italic">
+        Imagem ilustrativa do produto {nomeProduto}
+      </p>
+    </section>
+
+    <!-- seçao do porque funciona -->
+    <section class="bg-white py-16 px-6">
+      <h2 class="text-3xl font-bold text-center text-green-800 mb-10">
+        Por que o {nomeProduto} funciona?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+        <!-- map de beneficios e adjetivos -->
+        {
+          beneficios.map((beneficio: string, index: string | number) => (
+            <div
+              class="bg-green-50 p-6 rounded-lg shadow text-center"
+              
+            >
+              <h3 class="text-xl font-semibold text-green-700">
+                {adjetivos[index]}
+              </h3>
+              <p class="mt-2 text-sm text-gray-600">{beneficio}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- depoimentos -->
+    <section class="py-16 px-6 bg-green-100">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-center text-green-900 mb-8"
+      >
+        Veja quem já usou o {nomeProduto}:
+      </h2>
+      <div class="max-w-4xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p class="italic">"{depoimento1}"</p>
+          <p class="mt-2 text-sm text-gray-600">– {pessoa1}</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p class="italic">"{depoimento2}"</p>
+          <p class="mt-2 text-sm text-gray-600">– {pessoa2}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer com call-to-actions -->
+    <section
+      id="comprar"
+      class="bg-green-700 text-white py-12 px-6 text-center"
+    >
+      <h2 class="text-3xl font-bold mb-4">{ctaSecundario}</h2>
+      <p class="mb-6 text-lg">{ctaTerciario}</p>
+      <a
+        href="#"
+        class="inline-block bg-white text-green-700 font-bold px-8 py-3 rounded-full shadow hover:bg-gray-100 transition"
+      >
+        {ctaTexto}
+      </a>
+      <p class="mt-4 text-sm opacity-80">
+        Frete grátis para todo o Brasil • Garantia de satisfação
+      </p>
+    </section>
+
+    <!-- copyrights -->
+    <footer class="bg-green-900 text-white text-center text-xs p-4">
+      &copy; 2025 {company}. Produto natural autorizado. Consulte um
+      profissional de saúde.
+    </footer>
+  </body>
+</html>
