@@ -1,10 +1,10 @@
 
-# 💼 A3 Media Web Designer Teste
+# 💼 Astro Landing Page Generator
 
 Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**, no qual foi solicitado replicar duas páginas de funil, transformá-las em templates Astro + TinaCMS, e gerar **1000 variações únicas** de cada uma usando conteúdo dinâmico.
 
 ### 🚀 Deploy
-- https://a3-test.surge.sh/
+- [http://astro-generator.surge.sh/](http://astro-generator.surge.sh/)
 
 <br/>
 
