@@ -58,7 +58,7 @@ Este projeto é uma solução para o desafio técnico proposto pela **A3 Media**
 
 ```bash
 git clone https://github.com/synthriz/a3-test.git
-cd a3-test
+cd astro-landing-page-generator
 cd a3-test
 ```
 
